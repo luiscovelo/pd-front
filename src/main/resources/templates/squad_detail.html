@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>PD Hours / Squads</title>
+
+</head>
+
+<body>
+
+	<div layout:fragment="body">
+
+		<div class="row">
+			
+			<div class="container">
+					
+				<h1 class="title" th:text="${squad.name}">Nome da squad</h1>
+
+				<div class="card-table">	
+
+					<div class="row justify-content-center vertical-align-middle">
+					
+						<form th:object="${reportDateDto}" method="POST" class="form-inline">
+
+							<div>
+								<label for="initialDate">Início</label>
+								<input th:field="*{initialDate}" id="initialDate" type="date" name="initialDate" class="form-control" placeholder="01/02/2022" autocomplete="off">
+							</div>
+
+							<div>
+								<label for="finalDate">Fim</label>
+								<input th:field="*{finalDate}" id="finalDate" type="date" name="finalDate" class="form-control" placeholder="28/02/2022" autocomplete="off">
+							</div>
+
+							<div>
+								<button type="submit" class="btn btn-primary margin-without-label">Filtrar por data</button>
+							</div>
+							
+						</form>
+
+					</div>
+
+					<div class="item-row-center">
+						<h3 class="p-padding">Horas por membro</h3>
+					</div>
+
+					<div th:if="${reports.empty && totalEmployees > 0}" class="item-row-center">
+
+						<img class="img-emoji" src="/assets/images/emoji.svg">
+						<p>Nenhum intervalo de data selecionado. Selecione um intervalo para começar.</p>
+						
+					</div>
+
+					<div th:if="${totalEmployees == 0}" class="item-row-center">
+						
+						<img class="img-emoji" src="/assets/images/emoji.svg">
+						<p>Nenhum usuário cadastrado nesta squad. Crie um usuário para começar.</p>
+						<button data-toggle="modal" data-target="#modal-employee" class="mt-50 btn btn-primary">Adicionar usuário</button>
+
+					</div>
+
+					<div th:if="${!reports.empty}" style="width: 100%;">
+						
+						<table class="table table-rounded">
+							<thead>
+								<tr>
+									<th>Membro</th>
+									<th>Descrição</th>
+									<th>Horas</th>
+									<th>Criado em</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="report: ${reports}">
+									<td th:text="${report.employee}">Luis</td>
+									<td th:text="${report.description}">Luis</td>
+									<td th:text="${report.spentHours}">Luis</td>
+									<td th:text="${#temporals.format(report.createdAt, 'dd/MM/yyyy')}">Luis</td>
+								</tr>
+							</tbody>
+						</table>
+
+						<br>
+
+						<div class="item-row-center">
+							<h3 class="p-padding">Horas totais da squad</h3>
+							<h1 class="p-padding result" th:text="${reportSquadHour.hours} + ' Horas'">27</h1>
+						</div>
+
+						<div class="item-row-center">
+							<h3 class="p-padding">Média de horas por dia</h3>
+							<h1 class="p-padding result" th:text="${reportSquadAverageHours.hours} + ' Horas/Dia'">3 Horas/Dia</h1>
+						</div>
+
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+
+</body>
+</html>

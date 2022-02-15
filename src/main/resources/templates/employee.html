@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>PD Hours / Employees</title>
+
+</head>
+
+<body>
+
+	<div layout:fragment="body">
+
+		<div class="row">
+			
+			<div class="container">
+				
+				<div th:if="${squads.empty}">
+					<div class="card">
+						<img class="img-emoji" src="/assets/images/emoji.svg">
+						<p>Nenhuma squad cadastrada. Crie uma squad para começar</p>
+						<button data-toggle="modal" data-target="#modal-squad" class="btn btn-primary">Criar squad</button>
+					</div>
+				</div>
+
+				<div th:if="${!squads.empty && employees.empty}">
+					<div class="card">
+						<img class="img-emoji" src="/assets/images/emoji.svg">
+						<p>Nenhum usuário cadastrado. Crie um usuário para começar</p>
+						<button data-toggle="modal" data-target="#modal-employee" class="btn btn-primary">Criar usuário</button>
+					</div>
+				</div>
+
+				<div th:if="${!employees.empty && !squads.empty}">
+
+					<h1 class="title">Lista de Usuários</h1>
+					
+					<div class="card-table">
+
+						<table class="table table-rounded">
+							<thead>
+								<tr>
+									<th>Nome</th>
+									<th>Horas</th>
+									<th>Squad ID</th>
+								</tr>
+							</thead>
+							<tbody>
+								
+								<tr th:each="employee: ${employees}">
+									<td th:text="${employee.name}">1</td>
+									<td th:text="${employee.estimatedHours}">EstimatedHours</td>
+									<td th:text="${employee.squadId}">Squad</td>
+								</tr>
+							
+							</tbody>
+						</table>
+
+						<div class="item-row-center mt-50">
+							<button data-toggle="modal" data-target="#modal-employee" class="btn btn-primary">Criar usuário</button>
+						</div>
+
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+
+</body>
+</html>

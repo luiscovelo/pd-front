@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>PD Hours</title>
+			
+	<link rel="stylesheet" href="/assets/css/styles.css">
+	
+	<link rel="icon" type="image/png" href="/assets/images/logo_pd.png" />
+
+</head>
+<body>
+	
+	<div class="wrapper">
+		
+		<nav class="navbar">
+			
+			<div class="row mt-10">
+				<a href="/"><img src="/assets/images/logo_pd.png"></a>
+			</div>
+
+			<div class="row pull-center">
+				<div class="column text-start">
+					<h1>PD Hours</h1>
+				</div>
+				<div class="column text-end">
+					<button data-toggle="modal" data-target="#modal-report" class="btn btn-primary">Lançar horas</button>
+				</div>
+			</div>
+
+			<div class="row">
+				<div id="menu-options" class="menu">
+					<a th:href="@{/squad}" id="menu-option-squad">Squads</a>
+					<a th:href="@{/employee}" id="menu-option-employee">Usuários</a>
+				</div>
+			</div>
+
+		</nav>
+
+	</div>
+
+	<div layout:fragment="body"></div>
+	
+	<div id="modal-squad" class="modal">
+		<div class="modal-backdrop"></div>
+		<div class="modal-dialog modal-content">
+			
+			<div class="column justify-center">
+				
+				<div  class="modal-header">
+					<div class="row pull-center">
+						<div class="column ">
+							<h2 class="">Criar squad</h2>
+						</div>
+					</div>
+				</div >
+				
+				<div th:if="${squadInvalidInput != null}">
+					
+					<div th:each="error: ${squadInvalidInput}" class="row pull-center alert alert-danger">
+						<img src="/assets/images/alert-triangle.png">
+						<span th:utext="${error.key + ' <br> ' + error.value}">Message error</span>
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	    					<img src="/assets/images/icon-close.png">
+	  					</button>
+					</div>
+
+				</div>
+
+				<form autocomplete="off" method="POST" th:action="@{/squad/create}" action="#" th:object="${squadModel}">
+
+					<div>
+						<label for="name">Nome da Squad</label>
+						<input th:name="name" id="name" type="text" name="name" class="form-control" placeholder="Digite o nome da squad" autocomplete="false" required>
+					</div>
+
+					<center>
+						<div class="space-button-modal">
+							<button type="submit" class="btn btn-primary">Criar squad</button>
+						</div>
+					</center>
+					
+				</form>
+
+			</div>
+
+		</div>
+	</div>
+
+	<div id="modal-employee" class="modal">
+		<div class="modal-backdrop"></div>
+		<div class="modal-dialog modal-content">
+			
+			<div class="column justify-center">
+				
+				<div class="modal-header">
+					<div class="row pull-center">
+						<div class="column ">
+							<h2 class="">Criar Usuário</h2>
+						</div>
+					</div>
+				</div>
+
+				<div th:if="${employeeInvalidInput != null}">
+					
+					<div th:each="error: ${employeeInvalidInput}" class="row pull-center alert alert-danger">
+						<img src="/assets/images/alert-triangle.png">
+						<span th:utext="${error.key + ' <br> ' + error.value}">Message error</span>
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	    					<img src="/assets/images/icon-close.png">
+	  					</button>
+					</div>
+
+				</div>
+
+				<form method="POST" th:action="@{/employee/create}" action="#" th:object="${employeeModel}">
+
+					<div>
+						<label for="name">Nome do usuário</label>
+						<input th:name="name" id="name" type="text" name="name" class="form-control" placeholder="Digite o nome do usuário" autocomplete="off" >
+					</div>
+
+					<div>
+						<label for="estimatedHours">Horas estimadas de trabalho</label>
+						<input th:name="estimatedHours" id="estimatedHours" type="number" name="estimatedHours" class="form-control" placeholder="Digite a quantidade de horas" autocomplete="off" value=0>
+					</div>
+
+					<div>
+						<label for="squadId">Squad</label>
+						<input th:name="squadId" id="squadId" type="number" name="squadId" class="form-control" placeholder="Digite o Id da squad" autocomplete="off" value=0 >
+					</div>
+
+					<center>
+						<div class="space-button-modal">
+							<button type="submit" class="btn btn-primary">Criar usuário</button>
+						</div>
+					</center>
+					
+				</form>
+
+			</div>
+
+		</div>
+	</div>
+
+	<div id="modal-report" class="modal">
+		<div class="modal-backdrop"></div>
+		<div class="modal-dialog modal-content">
+			
+			<div class="column justify-center">
+				
+				<div class="modal-header">
+					<div class="row pull-center">
+						<div class="column ">
+							<h2 class="">Criar Lançamento</h2>
+						</div>
+					</div>
+				</div>
+
+				<div th:if="${reportInvalidInput != null}">
+					
+					<div th:each="error: ${reportInvalidInput}" class="row pull-center alert alert-danger">
+						<img src="/assets/images/alert-triangle.png">
+						<span th:utext="${error.key + ' <br> ' + error.value}">Message error</span>
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	    					<img src="/assets/images/icon-close.png">
+	  					</button>
+					</div>
+
+				</div>
+
+				<form method="POST" th:action="@{/report/create}" action="#" th:object="${reportModel}">
+
+					<div>
+						<label for="employeeId">Id do usuário</label>
+						<input th:name="employeeId" id="employeeId" type="text" name="employeeId" class="form-control" placeholder="Digite o ID do usuário" autocomplete="off" value=0>
+					</div>
+
+					<div>
+						<label for="spentHours">Horas gastas</label>
+						<input th:name="spentHours" id="spentHours" type="number" name="spentHours" class="form-control" placeholder="Digite a quantidade de horas" autocomplete="off" value=0>
+					</div>
+
+					<div>
+						<label for="description">Descrição</label>
+						<input th:name="description" id="description" type="text" name="description" class="form-control" placeholder="Informe o que foi feito" autocomplete="off">
+					</div>
+
+					<center>
+						<div class="space-button-modal">
+							<button type="submit" class="btn btn-primary">Criar lançamento</button>
+						</div>
+					</center>
+					
+				</form>
+
+			</div>
+
+		</div>
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
+	
+	<script type="text/javascript">
+
+
+		$(document).ready(function() {
+
+			let modaisBackdrop = document.querySelectorAll(".modal-backdrop");
+			for (let i = 0; i< modaisBackdrop.length; i++) {
+				modaisBackdrop[i].addEventListener("click", closeModal, false);
+			}
+
+			let url = new URL(window.location.href);
+			let searchParams = new URLSearchParams(url.search);
+			
+			if(searchParams.get('modal')){
+				let modal = searchParams.get('modal');
+				if(modal == "squad"){
+					$("#modal-squad").modal("show");
+				}
+				if(modal == "employee"){
+					$("#modal-employee").modal("show");
+				}
+				if(modal == "report"){
+					$("#modal-report").modal("show");
+				}
+			}
+
+			verifyRouteAndActiveLink();
+
+		});
+
+		function closeModal(event){
+			let url = new URL(window.location.href);
+			let modais = document.querySelectorAll(".modal");
+
+			for (let i = 0; i< modais.length; i++) {
+				$("#" + modais[i].id).modal("hide");
+			}
+			
+			url.searchParams.delete('modal')
+			history.replaceState(null, null, url)
+
+		}
+
+		function verifyRouteAndActiveLink(){
+			let url = new URL(window.location.href);
+			let pathname = url.pathname;
+			
+			let menuSquad = document.getElementById("menu-option-squad");
+			let menuEmployee = document.getElementById("menu-option-employee");
+
+			if(pathname.includes('squad')){
+				menuSquad.classList.add("active");
+			}
+
+			if(pathname.includes('employee')){
+				menuEmployee.classList.add("active");
+			}
+
+		}
+
+	</script>
+
+</body>
+
+</html>
